@@ -1,3 +1,5 @@
+# Wenny adds build_assigner
+# --------------------------------------------------------
 # Obtained from: https://github.com/open-mmlab/mmsegmentation/tree/v0.16.0
 # Modifications: Support UDA models
 
@@ -9,6 +11,8 @@ from mmcv.utils import Registry
 
 MODELS = Registry('models', parent=MMCV_MODELS)
 ATTENTION = Registry('attention', parent=MMCV_ATTENTION)
+MASK_ASSIGNERS = Registry('mask_assigner')
+MATCH_COST = Registry('match_cost')
 
 BACKBONES = MODELS
 NECKS = MODELS
@@ -71,3 +75,11 @@ def build_segmentor(cfg, train_cfg=None, test_cfg=None):
         'test_cfg specified in both outer field and model field '
     return SEGMENTORS.build(
         cfg, default_args=dict(train_cfg=train_cfg, test_cfg=test_cfg))
+
+def build_assigner(cfg):
+    """Build Assigner."""
+    return MASK_ASSIGNERS.build(cfg)
+
+def build_match_cost(cfg):
+    """Build Match Cost."""
+    return MATCH_COST.build(cfg)
